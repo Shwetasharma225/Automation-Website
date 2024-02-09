@@ -1,0 +1,676 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+.table-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr); /* Five equal-width columns */
+  grid-gap: 10px; /* Adjust the gap between cells */
+}
+
+.table-header {
+  background-color: #333;
+  color: white;
+  text-align: center;
+  padding: 5px;
+}
+.chart-box {
+  border: 2px solid #ccc; /* Add a border */
+  padding: 10px; /* Add padding to create space around the chart */
+  border-radius: 10px; /* Optionally, add rounded corners */
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Optionally, add a shadow */
+  margin-top: 6px;
+}
+/* Default styles for the sidebar */
+#sidebar {
+  background-color: #e9ecef;
+  transition: all 0.3s;
+}
+
+/* Styles for larger screens (e.g., medium and large) */
+@media (min-width: 768px) {
+  #sidebar {
+    width: 250px; /* Adjust the width as needed */
+  }
+}
+
+/* Styles for smaller screens (e.g., extra small and small) */
+@media (max-width: 767px) {
+  #sidebar {
+    position: fixed;
+    width: 100%; /* Full width on smaller screens */
+    max-width: 250px; /* Maximum width for the sidebar */
+    height: 100%;
+    overflow-y: auto; /* Add scrollbars if content overflows */
+    z-index: 1000; /* Ensure it appears above other content */
+    transform: translateX(-100%); /* Initially hidden off-screen */
+    transition: transform 0.3s;
+  }
+
+  /* Show the sidebar when a button is clicked (e.g., a menu button) */
+  #sidebar.show {
+    transform: translateX(0);
+  }
+}
+/* Default styles for the main content */
+.col.main {
+  padding-top: 5rem; /* Adjust the top padding as needed */
+}
+
+/* Styles for larger screens (e.g., medium and large) */
+@media (min-width: 768px) {
+  .col.main {
+    margin-right: 2rem; /* Adjust the right margin as needed */
+  }
+}
+
+/* Styles for smaller screens (e.g., extra small and small) */
+@media (max-width: 767px) {
+  .col.main {
+    padding-top: 3rem; /* Reduce the top padding for smaller screens */
+    margin-right: 0; /* Remove right margin to make full width */
+  }
+}
+/* Default styles for the Navbar */
+.navbar {
+  transition: all 0.3s;
+ 
+}
+
+/* Styles for larger screens (e.g., medium and large) */
+@media (min-width: 768px) {
+  /* Adjust the spacing and styles for larger screens as needed */
+  .navbar {
+    background-color: #61dafb;
+    padding: 1rem 2rem; /* Adjust padding as needed */
+  }
+}
+
+/* Styles for smaller screens (e.g., extra small and small) */
+@media (max-width: 767px) {
+  /* Adjust the Navbar for smaller screens */
+  .navbar {
+    padding: 1rem; /* Adjust padding as needed */
+  }
+
+  /* Center the Navbar Brand and Toggler Button */
+  .navbar-brand,
+  .navbar-toggler {
+    margin: 0 auto;
+    display: block;
+    text-align: center;
+  }
+  
+  /* Move the Profile Dropdown below the Navbar Brand */
+  .navbar-nav .dropdown-menu {
+    top: 100%;
+  }
+}
+/* CSS class for making the DualBarChart responsive */
+.chart-box {
+  max-width: 100%;
+  overflow: hidden;
+}
+
+/* Adjust the width and height of the chart for different screen sizes */
+.chart-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%; /* Adjust the initial height as needed */
+}
+
+/* Responsive styles for smaller screens */
+@media (max-width: 600px) {
+  .chart-container {
+    height: 100%; 
+    width: 100%;/* Adjust the height for smaller screens */
+  }
+  .chart-box {
+    max-width: 100%;
+    overflow: hidden;
+  }
+
+  
+}
+
+.drawer-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  margin-left: 900px; /* Adjust the initial left margin as needed */
+}
+
+@media (max-width: 768px) {
+  .drawer-container {
+    margin-left: 0; /* Reset the left margin for smaller screens */
+  }
+  .home{
+    position: relative;
+    height: 100vh;
+    width: 50%;
+    background-image: url("C:\Users\shwet\Desktop\emd\admindashboard\src\components\flat-lay-medical-elements-arrangement-with-copy-space (1) (1).jpg");
+    background-size: cover;
+    background-position: center;
+  }  
+}
+.home{
+  position: relative;
+  height: 100vh;
+  width: 100%;
+  background-image: url("C:\Users\shwet\Desktop\emd\admindashboard\src\components\flat-lay-medical-elements-arrangement-with-copy-space (1) (1).jpg");
+  background-size: cover;
+  background-position: center;
+
+}
+
+.containers {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.chart-containers {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #ccc;
+  margin: 10px;
+  padding: 10px;
+  width: 100%;
+  max-width: 800px; /* Adjust as needed */
+  box-sizing: border-box;
+}
+/* DualBarChart.css */
+
+.chart-container {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Media query for screens with a maximum width of 600px */
+@media (max-width: 600px) {
+  .chart-container {
+    width: 100%; /* Make the chart container full width */
+  }
+
+  /* Adjust other styles for smaller screens as needed */
+}
+
+.charts {
+  flex: 1;
+  max-width: 400px; /* Adjust as needed */
+}
+
+.details {
+  flex: 1;
+  max-width: 400px; /* Adjust as needed */
+}
+
+.tables {
+  display: flex;
+  flex-direction: row;
+  
+}
+  
+
+  .chart,
+  .details {
+    flex: 1;
+    max-width: 100%;
+}
+
+
+@media (max-width: 700px) {
+   
+  .tables {
+    flex-direction: column;
+    /* float: left; */
+   
+  }
+  /* .table{
+    width:9rem;
+    
+  } */
+  .chart-box{
+    width: 22rem;
+}
+
+}
+
+@media (max-width: 600px) {
+  .container {
+    padding-top: 20px; /* Adjust spacing for mobile */
+    /* Add other mobile-specific styles here */
+  }
+
+  /* Normalize the table and set a fixed width */
+  .table.table-striped {
+    width: 23rem;
+    table-layout: fixed;
+    font-size: 12px; /* Adjust the font size as needed */
+  }
+
+  /* Ensure table cells do not overflow */
+  .table.table-striped th,
+  .table.table-striped td {
+    white-space: nowrap;
+    font-size: xx-small;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 4px 8px; /* Adjust the padding as needed */
+  }
+
+  /* Allow th to wrap text into two lines */
+  .table.table-striped th {
+    white-space: normal;
+    word-wrap: break-word;
+  }
+
+  /* Adjust margins for rows */
+  .row {
+    margin-left: -29px;
+    margin-right: -29px;
+  }
+  .name{
+    height: 45px;
+    background-color: #61dafb;
+  }
+}
+.apexcharts-menu-icon {
+  display: none !important;
+}
+.btn-custom {
+  background-color: #3939eb;
+  color: white; /* Optionally, you can change the text color to white for better contrast */
+}
+.custom-buttons {
+  background-color: #3939eb;
+  border: none;
+  color: white;
+  padding: 48px 8px;
+  text-align: center;
+  text-decoration: none;
+  display: flex;
+  float: left;
+  font-size: 10px;
+  margin: 4px 2px;
+  transition-duration: 0.4s;
+  cursor: pointer;
+}
+
+.custom-buttons:hover {
+  background-color: #0f0f40;
+}
+
+@media(max-width: 700px){
+.drpdwn{
+  margin-bottom: 15px;
+}
+}
+
+@media (max-width: 767px) {
+  .apex-chart {
+    margin-top: 70px;
+  }
+}
+
+.App {
+  text-align: center;
+}
+
+.App-header {
+   
+background-color: #3939eb;
+  color: rgb(13, 11, 11);
+ position: relative;
+  height: 100vh;
+  width: 100%;
+  background-size: cover;
+  background-position: center;
+}
+
+.signup-button {
+  background-color: #0d3d78;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.signup-button:hover {
+  background-color: #0f1dbc;
+}
+
+.main-container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 20px;
+}
+
+.content {
+  flex: 1;
+  padding: 20px;
+  text-align: left;
+}
+
+.content h2 {
+  margin-bottom: 20px;
+}
+
+.doctors-svg {
+  flex: 1;
+}
+
+.App-footer {
+  background-color: #3939eb;
+  color: white;
+  padding: 10px;
+}
+
+/* img {
+  width: 100%;
+  height: auto;
+} */
+.text-content {
+   
+  flex: 1;
+  width: 50%;
+  
+}
+/* new nav */
+nav{
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 20px;
+  top: 0%;
+  width: 100%;
+  background-color: #080856;
+  color: white;
+}
+ul {
+  display: flex;
+}
+ul li{
+  list-style: none;
+}
+ul li a{
+  text-decoration: none;
+  color: white;
+  font-size: 20px;
+  margin-inline: 20px;
+}
+ul li a:hover{
+  color: black;
+  border-bottom: 2px solid black;
+}
+.logo{
+  font-size: 32px;
+  justify-content: start;
+  font-weight: bolder;
+}
+.main-container {
+  animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.carousel-caption {
+    
+  flex-direction: right;
+  justify-content: center;
+  text-align: right;
+  color: #2b1616; /* Set your desired text color */
+  padding: 20px; /* Adjust the padding as needed */
+}
+.carousel-item{
+  transform: .3s ease-in-out;
+}
+.carousel-item-wrapper{
+  
+    /* position: relative; */
+    width: 100%;
+    overflow: hidden;
+   height: 85vh;
+  background-color: white;
+  margin-top: 30px;
+   
+    box-sizing: border-box;
+
+}
+.carousel-caption{
+  position: absolute;
+    top: 60%;
+    left: 41%;
+    right: 15%;
+    color: #151616;
+    transform: translateY(-50%);
+    animation: slideIn 3s ease-in-out;
+  }
+ .card{
+  height: 40vh;
+  border-radius: 1rem;
+  background-color: rgb(147, 178, 238);
+  color: #080856;
+  transition:  transform 0.3s ease-in-out; /* Smooth transition effect */
+}
+.card-title{
+  font-weight: bold;
+  font-size: 1.6rem;
+}
+.card-text{
+  font-size: 1.2rem;
+}
+.card:hover {
+  transform: scale(1.05);
+  background-color: #080856; /* Change background color on hover */
+  color: white; /* Change text color on hover */
+}
+.heading{
+  font-weight: bold;
+  margin: 100px;
+  font-size: 2.5rem;
+}
+.responsive-band {
+  width: 100%; /* Adjust width as per your requirement */
+  height: 80vh; /* Adjust height as per your requirement */
+  background-color: white; /* Set your desired background color */
+  margin: 0 auto; /* Center the band horizontally */
+}
+.animated-text {
+  animation-name: slideInFromRight;
+}
+
+@keyframes slideInFromRight {
+  from {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+.moving-button {
+  width: 120px;
+  height: 40px;
+  background-color: #3939eb;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  position: relative;
+  animation: moveButton 2s infinite alternate ease-in-out;
+}
+
+@keyframes moveButton {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(10px);
+  }
+}
+/* Media query for screens with a maximum width of 1200px */
+@media (max-width: 1200px) {
+  .carousel-caption {
+    left: 35%;
+  }
+ 
+}
+
+/* Media query for screens with a maximum width of 992px */
+@media (max-width: 992px) {
+  .logo {
+    font-size: 28px;
+  }
+}
+
+/* Media query for screens with a maximum width of 768px */
+@media (max-width: 768px) {
+  .carousel-caption {
+    left: 25%;
+    bottom: 70%;
+  }
+  .App-header{
+    height: 140vh;
+  }
+  .slide-in-image {
+    height: 30vh;
+  }
+  
+}
+
+/* Media query for screens with a maximum width of 576px */
+@media (max-width: 576px) {
+  .logo {
+    font-size: 24px;
+  }
+  .carousel-caption {
+    left: 15%;
+  }
+  .heading {
+    margin: 50px;
+    font-size: 2rem;
+  }
+  .responsive-band {
+    height: auto;
+    padding: 20px;
+
+  }
+}
+
+/* Media query for screens with a maximum width of 400px */
+@media (max-width: 400px) {
+  .logo {
+    font-size: 20px;
+  }
+  .heading {
+    margin: 30px;
+    font-size: 1.5rem;
+  }
+}
+.carousel-item-wrapper {
+  position: relative;
+}
+
+
+
+@media (max-width: 768px) {
+  .carousel-caption {
+   
+   
+    margin-top: 170px;
+    color: black; /* Set text color to black for better visibility */
+    text-align: center;
+   
+  }
+}
+
+
+@media (max-width: 767px) {
+  .carousel-item-wrapper {
+    height: auto;
+  }
+
+  .carousel-item-wrapper img {
+    max-width: 100%;
+    height: auto;
+    
+  }
+
+  .carousel-caption {
+    position: relative;
+    text-align: center;
+    padding: 20px;
+    margin-right: 98px;
+    
+  }
+  .title-font{
+   
+    margin-top: 50px;
+    margin-right: 9px;
+    text-align: center;
+    
+  }
+}
+
+
+
+
+
+
+/* Apply overflow-x: hidden to body to prevent horizontal scroll */
+body {
+  overflow-x: hidden;
+}
+
+/* Adjust the navigation bar for smaller screens */
+
+

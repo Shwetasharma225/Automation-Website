@@ -1,0 +1,179 @@
+import React, { useState, useEffect } from 'react';
+import ReactApexChart from 'react-apexcharts';
+import Table from './Table';
+import { Dialog, DialogContent, DialogTitle, Button, Typography } from '@mui/material';
+import { Close as CloseIcon } from '@mui/icons-material';
+import { SentimentVeryDissatisfied } from '@mui/icons-material';
+import { Link } from 'react-router-dom';
+import AddLicence from './AddLicence';
+import LicDrpdwn from './LicDrpdwn';
+
+const NewYorkLic = ({ userId, noLicenseFound, setNoLicenseFound, onDataCheck }) => {
+  const [data, setData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [licenseAdded, setLicenseAdded] = useState(false);
+  const [selectedFinId, setSelectedFinId] = useState(0);
+  const [showNoLicenseMessage, setShowNoLicenseMessage] = useState(false);
+
+  const generateChartData = (chartData) => {
+    const categories = ['Total Hr', 'AMA CAT-I', 'State Mandated'];
+
+    const seriesData = [
+      {
+        name: ['CME Hrs Required'],
+        data: [chartData.TotalHr, chartData.AMACat1Hr, chartData.StateMandatedHrs],
+      },
+      {
+        name: ['CME Hrs Done'],
+        data: [chartData.TotalHrDone, chartData.AMACat1HrDone, chartData.StateMandatedHrsDone],
+      },
+    ];
+
+    return { categories, seriesData };
+  };
+
+  const handleSelectedFinId = (selectedId) => {
+    setSelectedFinId(selectedId);
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const storeduserId = JSON.parse(sessionStorage.getItem('userId'));
+        const storedData = JSON.parse(sessionStorage.getItem('dualBarChartData')) || {};
+        const response = await fetch("http://warals1.ddns.net:8045/api/DashboardCustom", {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': sessionStorage.getItem('access_token'),
+            'Access-Control-Allow-Origin': 'http://localhost:3000',
+          },
+          body: JSON.stringify({
+            FinId: selectedFinId || 3,
+            RegistrationId: userId || storeduserId,
+            LicenceId: 3
+          }),
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const responseData = await response.json();
+
+        if (responseData.Status === "204" && responseData.Msg === "Record Not Found!!!") {
+          onDataCheck(true);
+        }
+
+        const allLicenceIds = responseData.map((item) => item.LicenceId);
+        sessionStorage.setItem('allLicenceIds', JSON.stringify(allLicenceIds));
+
+        const updatedStoredData = {
+          ...storedData,
+          [handleSelectedFinId]: responseData,
+        };
+        sessionStorage.setItem('dualBarChartData', JSON.stringify(updatedStoredData));
+
+        setData(responseData);
+        setIsLoading(false);
+        setError(null);
+      } catch (error) {
+        setError(error);
+        setIsLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [userId, selectedFinId]);
+
+  return (
+    <>
+      {showNoLicenseMessage ? (
+        <div>No license to display.</div>
+      ) : (
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
+          {data.map((chartData) => {
+            const { categories, seriesData } = generateChartData(chartData);
+
+            return (
+              <div className='tables' key={chartData.LicenceId}>
+                <div style={{ padding: '35px' }}>
+                  <h2 className='name'>{chartData.LicenseName}</h2>
+                  <LicDrpdwn userId={userId} LicenceId={chartData.LicenceId} handleSelectedFinId={handleSelectedFinId} selectedFinId={selectedFinId} />
+                  <ReactApexChart
+                    options={{
+                      chart: {
+                        id: `dual-bar-chart-${chartData.LicenceId}`,
+                        type: 'bar',
+                      },
+                      xaxis: {
+                        categories,
+                        labels: {
+                          rotate: 0,
+                          maxHeight: 50,
+                          style: {
+                            fontSize: '12px',
+                          },
+                          formatter: function (value) {
+                            const labelParts = value.split(' ');
+                            if (labelParts.length > 1) {
+                              return [labelParts[0], labelParts[1]];
+                            }
+                            return value;
+                          },
+                        },
+                      },
+                      plotOptions: {
+                        bar: {
+                          horizontal: false,
+                          columnWidth: '60%',
+                          endingShape: 'flat',
+                        },
+                      },
+                      dataLabels: {
+                        enabled: true,
+                      },
+                      legend: {
+                        position: 'top',
+                      },
+                      toolbar: {
+                        show: false,
+                      },
+                    }}
+                    series={seriesData}
+                    type="bar"
+                    height={350}
+                    width={280}
+                  />
+                </div>
+                <div>
+                  <Table data={chartData} userId={userId} LicenceId={chartData.LicenceId} FinId={selectedFinId} />
+                </div>
+              </div>
+            );
+          })}
+          <Dialog open={noLicenseFound} onClose={() => { setNoLicenseFound(false); setShowNoLicenseMessage(true) }}>
+            <DialogTitle>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                No License Found
+                <Button onClick={() => setNoLicenseFound(false)}>
+                  <CloseIcon />
+                </Button>
+              </div>
+            </DialogTitle>
+            <DialogContent>
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                <SentimentVeryDissatisfied style={{ fontSize: 48, color: 'red' }} />
+                <Typography variant="body1">Please add the license from the License Section.</Typography>
+              </div>
+              <AddLicence userId={userId} updateLicenseData={setLicenseAdded} />
+            </DialogContent>
+          </Dialog>
+        </div>
+      )}
+    </>
+  );
+};
+
+export default NewYorkLic;
